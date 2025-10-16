@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embedded Apps Script Game</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better full-screen mobile experience */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent body scrolling when modal is open */
+        }
+        /* Ensure the iframe container takes up a reasonable height */
+        #game-container {
+            height: 80vh; /* 80% of viewport height */
+            max-height: 900px; /* Cap the max height on very large screens */
+        }
+        @media (max-width: 640px) {
+             #game-container {
+                height: 90vh; /* Taller on mobile for better visibility */
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+
+    <div id="app" class="min-h-screen flex items-center justify-center p-2 sm:p-4">
+        <!-- Main Content Area: Iframe Container -->
+        <div id="game-container" class="w-full max-w-6xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden border-4 border-indigo-600 transition-all duration-300 hover:shadow-indigo-500/50">
+            <iframe
+                id="game-iframe"
+                src="https://script.google.com/macros/s/AKfycbxOsomnsvJ0BdhMwYzAJG78e8Dz4yyS0mmy8g1aBI3y4hoVYYx5TubiRbbMy35iFNIUEA/exec"
+                class="w-full h-full border-0"
+                allow="camera; microphone; geolocation; fullscreen"
+                title="Google Apps Script Game Embed">
+            </iframe>
+        </div>
+
+        <!-- Game Rules Modal (Overlay) -->
+        <div id="rules-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-95 backdrop-blur-sm transition-opacity duration-300">
+            <div class="bg-gray-800 text-white p-6 sm:p-10 rounded-xl shadow-2xl max-w-md w-11/12 border-b-4 border-indigo-500 transform scale-100 transition-all duration-500 ease-out">
+                <h2 class="text-3xl font-extrabold mb-4 text-indigo-400 text-center">Game Rules</h2>
+                <p class="mb-6 text-gray-300 text-center">Please read the instructions before starting the game.</p>
+
+                <div class="space-y-3 text-sm sm:text-base">
+                    <!-- Placeholder Rules - REPLACE THESE WITH ACTUAL GAME RULES -->
+                    <p><span class="text-indigo-400 font-semibold">1. Goal:</span> Complete all tasks within the time limit.</p>
+                    <p><span class="text-indigo-400 font-semibold">2. Controls:</span> Use the input fields provided by the Apps Script application.</p>
+                    <p><span class="text-indigo-400 font-semibold">3. Scoring:</span> Points are awarded for correct answers and speed.</p>
+                    <p><span class="text-indigo-400 font-semibold">4. Errors:</span> Incorrect submissions may result in a time penalty.</p>
+                    <p class="text-yellow-400 font-medium">⚠️ Note: The game is hosted externally (Google Apps Script). Ensure you have a stable connection.</p>
+                </div>
+
+                <button
+                    id="close-rules-btn"
+                    class="mt-8 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50"
+                >
+                    Start Game
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('rules-modal');
+            const closeButton = document.getElementById('close-rules-btn');
+
+            // Function to close the modal
+            function closeRulesModal() {
+                // Apply transition class for smooth fade-out
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                
+                // Hide completely after transition
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto'; // Re-enable body scrolling if needed
+                }, 300);
+            }
+
+            // Event listener for the "Start Game" button
+            closeButton.addEventListener('click', closeRulesModal);
+        });
+    </script>
+
+</body>
+</html>
